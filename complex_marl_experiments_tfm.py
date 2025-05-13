@@ -44,9 +44,7 @@ def load_MARL_betting_models(nagents):
         add_safe_globals({'FullyConnectedNetwork': FullyConnectedNetwork})
 
         model = th.load(path, weights_only=False)
-        #print(model)
         models[f'agent{i}'] = model
-        #print(f"Loaded model for agent{i} from {path}")
     return models
 
 
@@ -233,10 +231,7 @@ def run_experiment_marl(node_path, data_path, nagents, device="cpu", alternate_b
 
 
 def plot_rewards(total_rewards_masked, total_rewards_marl):
-    # Create a figure and axis
     fig, ax = plt.subplots(figsize=(12, 6))
-
-    # Generate x-axis values (positions in the list)
     x_values = range(len(total_rewards_masked))
 
     # Plot the total rewards for masked model and MARL
@@ -247,25 +242,21 @@ def plot_rewards(total_rewards_masked, total_rewards_marl):
     ax.set_xlabel('Number of Pods in Experiment')
     ax.set_ylabel('Average Reward')
     ax.set_title('Average Rewards: Base MARL vs Complex MARL')
-    # Add grid
     ax.legend()
 
     # Set x-axis ticks to display every 25 values
     ax.set_xticks(np.arange(0, len(x_values), 25))
 
-    # Show the plot
+    # Store plot (or uncomment to show it too)
     plt.tight_layout()
     #plt.show()
 
 def plot_rewards_moving_average(total_rewards_masked, total_rewards_marl):
-    # Create a figure and axis
     fig, ax = plt.subplots(figsize=(12, 6))
-
-    # Generate x-axis values (positions in the list)
     x_values = range(len(total_rewards_masked))
 
     # Calculate and plot the moving average for the masked model
-    window_size = 25  # You can adjust the window size as needed
+    window_size = 25  # Adust window size if needed
     moving_avg_masked = pd.Series(total_rewards_masked).rolling(window=window_size).mean()
     ax.plot(x_values, moving_avg_masked, label='Base MARL (Moving Avg)', linestyle='-', color='b')
 
@@ -282,7 +273,7 @@ def plot_rewards_moving_average(total_rewards_masked, total_rewards_marl):
     # Set x-axis ticks to display every 25 values
     ax.set_xticks(np.arange(0, len(x_values), 25))
 
-    # Show the plot
+    # Store plot (or uncomment to show it too)
     plt.tight_layout()
     #plt.show()
 def plot_rewards_with_std(mean_masked, std_masked, mean_marl, std_marl):
@@ -322,11 +313,11 @@ if __name__ == "__main__":
 
     for file_node in csv_node_files:
         data_node_path = file_node
-        file_node_name = os.path.basename(file_node).split('.')[0]  # Get the base name of the file_node
-        #print(file_node_name)
-        #output_dir = f"results_tfm/10agents/{file_node_name}"
+        # Get the base name of the file_node
+        file_node_name = os.path.basename(file_node).split('.')[0]
         output_dir = f"tests/{file_node_name}"
-        os.makedirs(output_dir, exist_ok=True)  # Create a directory for the current file_node
+        # Create if directory does not exist
+        os.makedirs(output_dir, exist_ok=True)
 
         masked_rewards_std = []
         mean_masked = []
@@ -339,7 +330,7 @@ if __name__ == "__main__":
 
         for file in csv_files:
             data_path = file
-            # Run the experiment using the masked model alone
+            # Run the experiment using the base model
             rewards_masked, timestep_data_masked = run_experiment_base_marl(data_node_path, data_path, nagents, device="cpu")
             total_rewards_masked.append(np.average(rewards_masked))
             masked_rewards_std.append(np.std(rewards_masked))
@@ -386,5 +377,5 @@ if __name__ == "__main__":
         plt.savefig(os.path.join(output_dir, 'rewards_with_std_plot.png'))
         plt.close()
 
-        print("Total rewards (masked model):", np.average(total_rewards_masked))
-        print("Total rewards (MARL):", np.average(total_rewards_marl))
+        print("Total rewards (base model):", np.average(total_rewards_masked))
+        print("Total rewards (complex MARL):", np.average(total_rewards_marl))

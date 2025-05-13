@@ -36,7 +36,7 @@ if __name__ == "__main__" :
     parser.add_argument("--node_path", default="data/node_info.csv", help="Path to node config info")
     parser.add_argument("--data_path", default="data/test_t.csv", help="Path to data")
     parser.add_argument("--save_models_path", default="3node4", help="Path to save models")
-    parser.add_argument("--path_saving_model", default="models_masking/test", help="Path of model to use")
+    parser.add_argument("--path_saving_model", default="tests", help="Path of model to use")
     args = parser.parse_args()
 
     node_path = args.node_path

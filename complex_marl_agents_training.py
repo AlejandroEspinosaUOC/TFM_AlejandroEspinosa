@@ -19,12 +19,6 @@ import betting_training_env as tfm
 
 wandb.init(project="tfm_tests2", group="experiment")
 
-#class WandbLoggerCallback(DefaultCallbacks):
-#    def on_episode_end(self, *, worker, base_env, policies, episode, **kwargs):
- #       info = episode.last_info_for()  # Get the info dict
-  #      if info and "custom_log" in info:
-   #         wandb.log({"custom_data": info["custom_log"]})
-            
 parser = add_rllib_example_script_args(
     default_iters=200,
     default_timesteps=15000,
@@ -61,10 +55,6 @@ def training_marl(base_config, nagents, csv_file):
             writer.writerow([i] + mean_rewards)
 
         checkpoint_path = algo.save(checkpoint_dir)
-            #algo.export_policy_model(
-            #    policy_id="agent0",
-            #    export_dir="models_tfm/test",
-            #)
         print(f"Checkpoint saved at {checkpoint_path}")
 
     # Stop Ray
@@ -114,7 +104,7 @@ if __name__ == "__main__":
 
     # Define policy mapping function
     def policy_mapping_fn(agent_id, *args, **kwargs):
-        return f"agent{int(agent_id[-1]) % nagents}"  # Assumes agent_id ends in a digit
+        return f"agent{int(agent_id[-1]) % nagents}"
 
     # RLlib Configuration
     base_config = (

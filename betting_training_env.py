@@ -27,7 +27,7 @@ class TFMCodecoEnv(ParallelEnv, gym.Env):
         # Configuring number of agents
         self.n_agents = config["num_agents"]
         
-        # Specify verbose level
+        # Verbose
         self.verbose = config["verbose"]
         
         # Establish possible agents 

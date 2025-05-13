@@ -190,30 +190,27 @@ class CodecoEnv(ParallelEnv, gym.Env):
         for i, agent in enumerate(self.agents):
             action_num = actions[agent]
             action = self.numeric_to_names[agent][action_num]
-            #print(action)
+            
             if action != "Fake" and rewards[agent] > best and corrects[agent]:
                 best = rewards[agent]
                 best_agent = agent
         
         if best_agent is None:
+            # Selecting the first agent in case of total failure (only as a failsafe)
+            # This should not happen, but in case it does, we select the first agent
             best_agent = self.agents[0]
             best = rewards[self.agents[0]]
-            print("All agents were incorrect")
                 
         for i, agent in enumerate(self.agents):
             if agent != best_agent and corrects[agent]:
-                #print("Before", self.k8semmulators[agent].npods)
                 action_num = actions[agent]
                 action = self.numeric_to_names[agent][action_num]
                 if action != "Fake":
                     nodes_info = self.k8semmulators[agent].remove_allocation(action, self.pod_pending[0][0])
                     info_states_ini[agent] = nodes_info
-                    # Lost the betting, enchance criteria!
                     rewards[agent] -= 0
-                #print("After", self.k8semmulators[agent].npods)
                     
-        return best_agent, rewards[best_agent], info_states_ini        
-        #print(best_agent, self.pod_pending[0][0])
+        return best_agent, rewards[best_agent], info_states_ini
     
     def get_action_masks(self) -> list[list[bool]]:
         mask = []
@@ -231,7 +228,6 @@ class CodecoEnv(ParallelEnv, gym.Env):
         corrects = {a: True for a in self.agents}
         info_states = {a: {} for a in self.agents}
         infos = {a: {} for a in self.agents}
-        #print(actions)
         
         for agent in self.agents:
             action_num = actions[agent]
@@ -273,12 +269,8 @@ class CodecoEnv(ParallelEnv, gym.Env):
                 
             while len(state) < (4 * self.max_size + 2):
                 state = np.append(state, -1)
-            self.states[i] = state
-        
-        # Computing pods in each agent        
+            self.states[i] = state   
 
-        #print(terminations)
-        #print(self.states.keys())
         self.last_state = [self.states, rewards, terminations, truncations, infos]
         return self.states, rewards, terminations, truncations, infos
 
@@ -290,8 +282,3 @@ class CodecoEnv(ParallelEnv, gym.Env):
 
     def action_space(self, agent):
         return self.action_spaces[agent]
-    
-    def close(self):
-        if self.window is not None:
-            pygame.display.quit()
-            pygame.quit()

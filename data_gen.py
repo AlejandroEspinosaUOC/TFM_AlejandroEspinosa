@@ -12,9 +12,9 @@ def gen_times(i, last_creation):
     if i-1 == 0:
         creation = 0
     else:
-        # Change range for creation time (minimum of 0), en segons
+        # Change range for creation time (minimum of 0), in seconds
         creation = last_creation + random.randint(1,20)
-    # Change range for exec time (minimum of 1), en segons
+    # Change range for exec time (minimum of 1), in seconds
     exec = random.randint(5, 100)
     #return creation, exec
     return creation, exec
@@ -36,7 +36,6 @@ if __name__ == "__main__":
     
     
     for data_size in range (0,200):
-        #size = int(args.size)
         size = int(data_size)
         filename = args.output.replace(".csv",f"_{human_format(size)}.csv")
         
@@ -44,7 +43,7 @@ if __name__ == "__main__":
         last_creation = 0
         for i in range(1, size + 1):
             id_value = generate_id(i)
-            # Change range for cpu cores (minimum of 0.001, maximum can be changed depending of app size)
+            # Change range for cpu cores (minimum of 1, maximum can be changed depending of app size)
             cpu = round(random.uniform(1,15), 4)
             if cpu > 1.0:
                 real_cpu = round(cpu*random.uniform(0.5,0.99), 4)

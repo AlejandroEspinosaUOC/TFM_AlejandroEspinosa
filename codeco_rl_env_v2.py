@@ -52,8 +52,7 @@ class CodecoEnvV2(gym.Env):
             self.max_size = 20
             assert len(self.state) < self.max_size, "The state is too big, maximum supported size is 20 nodes"
         else:
-            # See what to do with Fake node
-            self.max_size = self.n_nodes + 1
+            self.max_size = self.n_nodes +1
         
         
         self.action_space = spaces.Discrete(self.max_size)
@@ -131,9 +130,6 @@ class CodecoEnvV2(gym.Env):
         done = False
         # Return info on the cluster and reward
         info_cluster, reward, correct = self.k8semmulator.new_pod_enters(self.pod_pending[0], action, "rl")
-
-        while len(info_cluster) < (3 * self.max_size):
-            info_cluster.append(-1)
         
         # If not correct pod is the same, if correct we advance
         if correct:
@@ -156,5 +152,5 @@ class CodecoEnvV2(gym.Env):
         while len(estat) < (4 * self.max_size + 2):
             estat = np.append(estat, -1)
         wandb.log({"Reward":reward})
+        
         return estat, reward, done, truncated, info
-        #return estat, reward, done, truncated, info
