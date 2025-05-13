@@ -1,0 +1,11 @@
+name,max_CPU,max_RAM,degree,cpu_potency,ram_potency,connections,latency,energy_connections
+codeco_master,76,251,9,0.904,1.5295,codeco_node1;codeco_node2;codeco_node3;codeco_node4;codeco_node5;codeco_node6;codeco_node7;codeco_node8;codeco_node9,1.09;2.66;4.74;2.06;2.33;4.27;3.34;3.38;3.83,0.94809375
+codeco_node1,48,103,5,0.792,0.8635,codeco_node6;codeco_master;codeco_node7;codeco_node4;codeco_node2,1.26;2.42;2.22;3.79;1.74,0.7764687499999999
+codeco_node2,65,252,1,0.86,1.5340000000000003,codeco_node3,2.89,0.926875
+codeco_node3,99,39,2,0.996,0.5755,codeco_node6;codeco_node8,1.7;2.02,0.8284687500000001
+codeco_node4,69,191,4,0.8759999999999999,1.2595,codeco_node7;codeco_node1;codeco_node5;codeco_node8,4.76;4.8;2.43;2.62,0.88721875
+codeco_node5,70,94,1,0.8799999999999999,0.823,codeco_node3,3.2,0.8134375
+codeco_node6,52,220,7,0.808,1.3900000000000001,codeco_node4;codeco_node2;codeco_node7;codeco_node3;codeco_node1;codeco_master;codeco_node5,2.68;2.51;4.36;2.81;3.83;3.49;4.82,0.875875
+codeco_node7,40,176,8,0.76,1.1920000000000002,codeco_node2;codeco_node9;codeco_master;codeco_node6;codeco_node1;codeco_node4;codeco_node5;codeco_node8,1.48;1.98;4.28;2.85;3.05;4.57;2.0;2.85,0.8174999999999999
+codeco_node8,49,200,5,0.796,1.3,codeco_node5;codeco_node3;codeco_node4;codeco_node9;codeco_node1,3.36;4.12;2.47;2.18;2.73,0.85425
+codeco_node9,69,139,3,0.8759999999999999,1.0255,codeco_node3;codeco_node6;codeco_node2,4.91;1.83;3.05,0.84659375

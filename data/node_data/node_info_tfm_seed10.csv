@@ -1,0 +1,5 @@
+name,max_CPU,max_RAM,degree,cpu_potency,ram_potency,connections,latency,energy_connections
+codeco_master,34,125,3,0.736,0.9625,codeco_worker1;codeco_worker2;codeco_worker3,1.23;2.2;2.0,0.7656562499999999
+codeco_worker1,91,163,2,0.964,1.1335,codeco_master;codeco_worker2,3.24;1.5,0.90934375
+codeco_worker2,31,68,2,0.724,0.7060000000000001,codeco_master;codeco_worker3,4.2;1.2,0.7151249999999999
+codeco_worker3,89,224,1,0.956,1.4080000000000004,codeco_master,3.2,0.9530000000000001
