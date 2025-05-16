@@ -3,6 +3,8 @@ from k8node_config import K8Node
 import random
 import numpy as np
 
+##### CODE FROM OLDER PROJECTS #####
+
 def fix_node_names(df_data):
     """Auxiliar function that fixes problems of data containing unordered pods
 

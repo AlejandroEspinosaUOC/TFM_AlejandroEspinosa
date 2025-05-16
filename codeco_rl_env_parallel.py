@@ -185,6 +185,20 @@ class CodecoEnv(ParallelEnv, gym.Env):
         return (self.states, infos)   
 
     def solve_betting(self, rewards, corrects, actions, info_states_ini):
+        """
+        Function that solves the betting environment's reward calculation.
+
+        Parameters:
+        - rewards (dict): a dictionary with the rewards for each agent
+        - corrects (dict): a dictionary with boolean values indicating if the action was correct for each agent
+        - actions (dict): a dictionary with the actions taken by each agent
+        - info_states_ini (dict): a dictionary with the initial state information for each agent
+
+        Returns:
+        - best_agent (str): the agent with the highest reward
+        - reward_best (float): the highest reward
+        - info_states (dict): the updated state information for each agent
+        """
         best = -1
         best_agent = None
         for i, agent in enumerate(self.agents):

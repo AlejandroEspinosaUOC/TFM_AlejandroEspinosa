@@ -1,7 +1,8 @@
 import copy
 import numpy as np
 
-# Pot anar a clase útil o algo de l'estil
+##### CODE FROM OLDER PROJECTS #####
+
 def normalize(value, min_val, max_val):
     """
     Normalizes values in a range of 0-1

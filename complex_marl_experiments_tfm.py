@@ -28,6 +28,21 @@ th.backends.cudnn.deterministic = True
 th.backends.cudnn.benchmark = False
 
 def list_agent_folders(base_path, max_agent_number):
+    """
+    List the paths of the model.pt files of the agents in a base directory.
+
+    Parameters
+    ----------
+    base_path : str
+        The base directory where the agent folders are located.
+    max_agent_number : int
+        The maximum number of agents to look for.
+
+    Returns
+    -------
+    agent_folders : list
+        A list of the paths of the model.pt files of the agents.
+    """
     agent_folders = []
     for i in range(0, max_agent_number):
         agent_folder = os.path.join(base_path, f'agent{i}')
@@ -37,6 +52,25 @@ def list_agent_folders(base_path, max_agent_number):
     return agent_folders
 
 def load_MARL_betting_models(nagents):
+    """
+    Load models for multiple agents from specified directories.
+
+    This function loads models for a specified number of agents 
+    from directories in a predefined base path. It uses the function 
+    `list_agent_folders` to obtain paths to model files, loads the models 
+    using PyTorch, and stores them in a dictionary keyed by agent identifiers.
+
+    Parameters
+    ----------
+    nagents : int
+        The number of agents to load models for.
+
+    Returns
+    -------
+    models : dict
+        A dictionary where keys are agent identifiers (e.g., 'agent0', 'agent1', ...)
+        and values are the loaded PyTorch models.
+    """
     base_path = 'models_tfm/4_agents_code_carbon2/policies'
     path_models = list_agent_folders(base_path, nagents)
     models = {f'agent{i}': None for i in range(nagents)}
@@ -49,6 +83,35 @@ def load_MARL_betting_models(nagents):
 
 
 def setup_environment(node_path, data_path, nagents, masked, device, alternate_behavior=True):
+    """
+    Set up the environment for a MARL experiment.
+
+    Parameters
+    ----------
+    node_path : str
+        Path to the node configuration data.
+    data_path : str
+        Path to the pod data.
+    nagents : int
+        The number of agents.
+    masked : bool
+        Whether to use a masked model.
+    device : str or torch.device
+        The device to load the models on.
+
+    Returns
+    -------
+    env : CodecoEnv
+        The Codeco environment.
+    cluster_level_model : PPO or MaskablePPO
+        The cluster-level model.
+    critic : nn.Module
+        The critic for the cluster-level model.
+    critic_out : nn.Module
+        The critic output for the cluster-level model.
+    df_pods : pd.DataFrame
+        The pod data.
+    """
     agent_dfs, df_pods, nodes_info = dp.read_and_create_multiagent(node_path, data_path, nagents)
 
     env_config = {
@@ -89,6 +152,31 @@ def setup_environment(node_path, data_path, nagents, masked, device, alternate_b
 
 
 def run_experiment_base_marl(node_path, data_path, num_agents, device="cpu", alternate_behavior=True):
+    """
+    Runs a single experiment for the base MARL environment.
+
+    Parameters
+    ----------
+    node_path : str
+        Path to the CSV file containing node information.
+    data_path : str
+        Path to the CSV file containing pod data.
+    num_agents : int
+        Number of agents to use in the experiment.
+    device : str
+        Device to use for the experiment (e.g. "cpu" or "cuda").
+
+    Returns
+    -------
+    accumulated_rewards : list
+        List of accumulated rewards for each pod.
+    timestep_records : list
+        List of dictionaries containing information about each pod, including the agent, action, and critic value.
+    rewards_agent : dict
+        Dictionary containing the rewards for each agent.
+    critic_values_global : dict
+        Dictionary containing the critic values for each agent.
+    """
     env, models, critics, critic_outs, pod_data = setup_environment(
         node_path, data_path, num_agents, masked=True, device=device, alternate_behavior=alternate_behavior
     )
@@ -145,6 +233,20 @@ def run_experiment_base_marl(node_path, data_path, num_agents, device="cpu", alt
 
 
 def run_experiment_marl(node_path, data_path, nagents, device="cpu", alternate_behavior=True):
+    """
+    Runs an experiment with the given configuration and returns a list of accumulated rewards and a list of dictionaries containing information about each pod, including the agent, action, critic value, betting, and percent available.
+
+    Args:
+        node_path (str): The path to a CSV file containing node configuration information.
+        data_path (str): The path to a CSV file containing pod data.
+        nagents (int): The number of agents in the environment.
+        device (str, optional): The device to use for training (cpu or cuda). Defaults to "cpu".
+        alternate_behavior (bool, optional): Whether to alternate between two different behaviors for the agents. Defaults to True.
+
+    Returns:
+        accumulated_rewards (list): A list of accumulated rewards for each agent.
+        timestep_data (list): A list of dictionaries containing information about each pod, including the agent, action, critic value, betting, and percent available.
+    """
     env, cluster_models, critics, critic_outs, df_pods = setup_environment(
         node_path, data_path, nagents, masked=True, device=device, alternate_behavior=alternate_behavior
     )
@@ -231,6 +333,17 @@ def run_experiment_marl(node_path, data_path, nagents, device="cpu", alternate_b
 
 
 def plot_rewards(total_rewards_masked, total_rewards_marl):
+    """
+    Plots the average rewards for Base MARL and Complex MARL over the course of an experiment.
+
+    Parameters:
+    - total_rewards_masked (list): A list of average rewards obtained using the Base MARL approach.
+    - total_rewards_marl (list): A list of average rewards obtained using the Complex MARL approach.
+
+    The function creates a line plot comparing the rewards from both approaches, with the x-axis 
+    representing the number of pods in the experiment and the y-axis representing the average reward.
+    """
+
     fig, ax = plt.subplots(figsize=(12, 6))
     x_values = range(len(total_rewards_masked))
 
@@ -252,6 +365,16 @@ def plot_rewards(total_rewards_masked, total_rewards_marl):
     #plt.show()
 
 def plot_rewards_moving_average(total_rewards_masked, total_rewards_marl):
+    """
+    Plots the moving average of the average rewards for Base MARL and Complex MARL over the course of an experiment.
+
+    Parameters:
+    - total_rewards_masked (list): A list of average rewards obtained using the Base MARL approach.
+    - total_rewards_marl (list): A list of average rewards obtained using the Complex MARL approach.
+
+    The function creates a line plot comparing the moving average rewards from both approaches, with the x-axis 
+    representing the number of pods in the experiment and the y-axis representing the average reward.
+    """
     fig, ax = plt.subplots(figsize=(12, 6))
     x_values = range(len(total_rewards_masked))
 
@@ -277,6 +400,19 @@ def plot_rewards_moving_average(total_rewards_masked, total_rewards_marl):
     plt.tight_layout()
     #plt.show()
 def plot_rewards_with_std(mean_masked, std_masked, mean_marl, std_marl):
+    """
+    Plots the mean rewards with standard deviation for Base MARL and Complex MARL over the course of an experiment.
+
+    Parameters:
+    - mean_masked (list): A list of mean rewards obtained using the Base MARL approach.
+    - std_masked (list): A list of standard deviations of rewards obtained using the Base MARL approach.
+    - mean_marl (list): A list of mean rewards obtained using the Complex MARL approach.
+    - std_marl (list): A list of standard deviations of rewards obtained using the Complex MARL approach.
+
+    The function creates a line plot comparing the mean rewards from both approaches, with the x-axis 
+    representing the number of pods in the experiment and the y-axis representing the average reward.
+    Additionally, the standard deviation of the rewards is highlighted in the plot.
+    """
     fig, ax = plt.subplots(figsize=(12, 6))
     x_values = range(len(mean_masked))
 

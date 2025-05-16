@@ -27,6 +27,14 @@ parser = add_rllib_example_script_args(
 
 @track_emissions()
 def training_marl(base_config, nagents, csv_file):
+    """
+    Train a MARL algorithm with the given configuration.
+
+    Args:
+        base_config: A `PPOConfig` object that specifies the configuration for the algorithm.
+        nagents: The number of agents in the environment.
+        csv_file: The path to a CSV file where the mean rewards for each agent will be logged.
+    """
     algo = base_config.build_algo()
     checkpoint_dir = "tests"
     # Write header to CSV

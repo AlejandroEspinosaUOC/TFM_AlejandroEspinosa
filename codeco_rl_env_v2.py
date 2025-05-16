@@ -4,6 +4,8 @@ from gymnasium import spaces
 import numpy as np
 import wandb
 
+##### CODE IMPROVED FROM OLDER PROJECTS #####
+
 def normalize(value, min_val, max_val):
     """
     Normalizes values in a range of 0-1

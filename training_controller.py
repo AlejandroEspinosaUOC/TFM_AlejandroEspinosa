@@ -6,6 +6,8 @@ from wandb.integration.sb3 import WandbCallback
 from stable_baselines3 import PPO
 from sb3_contrib import MaskablePPO
 
+##### CODE FROM OLDER PROJECTS #####
+
 class Codeco_trainer():
     def __init__(self, env):
         self.env_to_train = env

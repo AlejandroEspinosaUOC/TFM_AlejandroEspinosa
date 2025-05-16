@@ -103,6 +103,12 @@ class TFMCodecoEnv(ParallelEnv, gym.Env):
         return (self.states, infos)   
     
     def update_state(self):
+        """
+        Updates the state of the environment. This function is called after each time step in the environment.
+        It takes the current state of the environment and updates it according to the rules of the environment.
+        The state is a dictionary where the keys are the agents and the values are lists of floats.
+        The function returns the updated state.
+        """
         states = {a: [] for a in self.possible_agents}
         for agent in self.possible_agents:
             # Flatten data_for_state if it contains nested lists
@@ -147,6 +153,20 @@ class TFMCodecoEnv(ParallelEnv, gym.Env):
         return states
         
     def betting_step(self, actions):
+        """
+        Perform a step in the betting environment.
+
+        Parameters
+        ----------
+        actions : dict
+            A dictionary where the keys are the agents and the values are the actions taken by each agent.
+
+        Returns
+        -------
+        norm_rewards : dict
+            A dictionary where the keys are the agents and the values are the normalized rewards received by each agent after taking their actions.
+        """
+       
         for i in self.agents:
             self.agent_bettings[i].append(actions[i])
 

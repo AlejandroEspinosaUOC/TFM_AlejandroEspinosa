@@ -3,6 +3,28 @@ import random
 
 def generate_data(filename, seed, N):
     # Set the seed for reproducibility
+    """
+    Generate node data for a Emmulated Kubernetes cluster.
+
+    This function generates a CSV file at the given filename with N nodes, 
+    each with a random max_CPU and max_RAM. The connections between nodes
+    are also randomly generated. A potency is calculated for each node based
+    on the max_CPU and max_RAM, and an energy connection value is calculated
+    based on the max_CPU and max_RAM. The seed is used to ensure reproducibility.
+
+    Parameters
+    ----------
+    filename : str
+        The filename to write the CSV data to.
+    seed : int
+        The seed used for generating random numbers.
+    N : int
+        The number of nodes to generate.
+
+    Returns
+    -------
+    No return value.
+    """
     random.seed(seed)
 
     # Generate names dynamically

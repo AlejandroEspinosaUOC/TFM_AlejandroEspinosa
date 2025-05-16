@@ -2,6 +2,8 @@ from decimal import Decimal
 import random
 import numpy as np
 
+##### CODE FROM OLDER PROJECTS #####
+
 class K8Node():
     """_summary_
         Class that represents a kubernetes node that runs applications (allocated in pods)
