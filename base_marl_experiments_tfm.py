@@ -18,6 +18,15 @@ from torch.serialization import add_safe_globals
 from ray.rllib.models.torch.fcnet import FullyConnectedNetwork
 import seaborn as sns
 
+# Uncomment to visualize plots with smaller font sizes, done for Thesis!
+plt.rcParams.update({
+    'axes.titlesize': 24,    
+    'axes.labelsize': 20,  
+    'xtick.labelsize': 16,   
+    'ytick.labelsize': 16, 
+    'legend.fontsize': 16,  
+    'lines.markersize': 12, 
+})
 
 SEED = 42
 random.seed(SEED)
@@ -468,7 +477,7 @@ def main():
     for nagents in range(2, 11):
         print(f"\nRunning for {nagents} agents...")
 
-        output_dir = f"results_betting_tests_codeco/{nagents}_agents"
+        output_dir = f"results_base_marl_exp/{nagents}_agents"
         os.makedirs(output_dir, exist_ok=True)
 
         data_path = csv_files[-1]

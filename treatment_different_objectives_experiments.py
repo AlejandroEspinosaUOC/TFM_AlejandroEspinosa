@@ -135,10 +135,21 @@ def regenerate_all_seeds(base_dir):
         else:
             print(f"CSV not found for seed {seed}: {csv_path}")
 # Run the function
-compute_average_improvement(base_path="results_tfm/4agents")
+#compute_average_improvement(base_path="results_tfm/4agents")
 #regenerate_plots_from_csv("results_tfm/10agents_mixed_objectives/node_info_tfm_seed9/results_backup10agents_mix.csv", #                          "results_tfm/10agents_mixed_objectives/node_info_tfm_seed9")
-#for i in range(6, 11):
-#    path = f"results_tfm/{i}agents_mixed_objectives"
-#    regenerate_all_seeds(path)
+
+# Uncomment to visualize plots with smaller font sizes, done for Thesis!
+plt.rcParams.update({
+    'axes.titlesize': 20,    
+    'axes.labelsize': 16,  
+    'xtick.labelsize': 12,   
+    'ytick.labelsize': 12, 
+    'legend.fontsize': 12,  
+    'lines.markersize': 8, 
+})
+for i in range(4, 11):
+    if i == 4 or i == 10:
+        path = f"results_tfm/{i}agents"
+        regenerate_all_seeds(path)
 
                           
