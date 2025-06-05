@@ -46,4 +46,4 @@ If needed (altough data is provided in data folder), data can be generated with 
 
 
 # Acknowledgments
-This work has received funding from the European Commission Horizon Europe programme under grant agreement number 101092696 (CODECO) and from the Swiss State Secretariat for Education, Research and Innovation (SERI) under contract number 23.00028. It has also received funding from the European Commission Horizon Europe programme under grant agreement number 101070186 (TEADAL).
+This work has received funding from the European Commission Horizon Europe programme under grant agreement number 101092696 (CODECO) and from the Swiss State Secretariat for Education, Research and Innovation (SERI) under contract number 23.00028.
